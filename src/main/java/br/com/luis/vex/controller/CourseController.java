@@ -7,10 +7,9 @@ import br.com.luis.vex.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/course")
@@ -25,4 +24,9 @@ public class CourseController {
         return new ResponseEntity<>(service.create(courseRequest), HttpStatus.CREATED);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<CourseResponseDTO> findById(@PathVariable("id") UUID id) {
+        return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
+
+    }
 }

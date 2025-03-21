@@ -10,6 +10,7 @@ import br.com.luis.vex.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +28,14 @@ public class CourseService {
 
         return courseResponseDTO(savedCourse);
 
+    }
+
+    public CourseResponseDTO findById(UUID id) {
+
+        Course course = repository.findById(id).
+                orElseThrow(() -> new RuntimeException("Curso não Encontrado"));
+
+        return courseResponseDTO(course);
     }
 
 
