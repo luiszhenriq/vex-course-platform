@@ -1,6 +1,7 @@
 package br.com.luis.vex.model;
 
 
+import br.com.luis.vex.dto.course.CourseRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,4 +33,9 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Module> modules = new ArrayList<>();
 
+    public Course(CourseRequestDTO course) {
+        this.title = course.title();
+        this.description = course.description();
+        this.category = course.category();
+    }
 }

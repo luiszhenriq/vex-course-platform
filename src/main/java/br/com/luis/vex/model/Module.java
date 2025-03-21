@@ -1,6 +1,7 @@
 package br.com.luis.vex.model;
 
 
+import br.com.luis.vex.dto.module.ModuleRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,4 +31,8 @@ public class Module {
 
     @OneToMany(mappedBy = "module", cascade = CascadeType.ALL)
     private List<Lesson> lessons;
+
+    public Module(ModuleRequestDTO modules) {
+        this.title = modules.title();
+    }
 }
