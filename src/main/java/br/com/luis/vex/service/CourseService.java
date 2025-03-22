@@ -65,6 +65,10 @@ public class CourseService {
         return courseResponseDTO(updatedCourse);
     }
 
+    public void deleteById(UUID id) {
+        repository.deleteById(id);
+    }
+
 
     private CourseResponseDTO courseResponseDTO(Course course) {
 
