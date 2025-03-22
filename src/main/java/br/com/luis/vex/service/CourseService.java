@@ -10,6 +10,7 @@ import br.com.luis.vex.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -36,6 +37,14 @@ public class CourseService {
                 orElseThrow(() -> new RuntimeException("Curso não Encontrado"));
 
         return courseResponseDTO(course);
+    }
+
+    public List<CourseResponseDTO> findAll() {
+
+        return repository.findAll()
+                .stream()
+                .map(this::courseResponseDTO)
+                .collect(Collectors.toList());
     }
 
 
