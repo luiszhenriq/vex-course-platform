@@ -3,6 +3,7 @@ package br.com.luis.vex.controller;
 
 import br.com.luis.vex.dto.course.CourseRequestDTO;
 import br.com.luis.vex.dto.course.CourseResponseDTO;
+import br.com.luis.vex.dto.course.CourseUpdateDTO;
 import br.com.luis.vex.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,5 +35,11 @@ public class CourseController {
     @GetMapping
     public ResponseEntity<List<CourseResponseDTO>> findAll() {
         return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CourseResponseDTO> update(@PathVariable("id") UUID id,
+                                                    @RequestBody CourseUpdateDTO courseUpdate) {
+        return new ResponseEntity<>(service.update(id, courseUpdate), HttpStatus.OK);
     }
 }

@@ -3,12 +3,14 @@ package br.com.luis.vex.service;
 
 import br.com.luis.vex.dto.course.CourseRequestDTO;
 import br.com.luis.vex.dto.course.CourseResponseDTO;
+import br.com.luis.vex.dto.course.CourseUpdateDTO;
 import br.com.luis.vex.dto.lesson.LessonResponseDTO;
 import br.com.luis.vex.dto.module.ModuleResponseDTO;
 import br.com.luis.vex.model.Course;
 import br.com.luis.vex.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,6 +23,7 @@ public class CourseService {
     private final CourseRepository repository;
 
 
+    @Transactional
     public CourseResponseDTO create(CourseRequestDTO course) {
 
         Course newCourse = new Course(course);
@@ -45,6 +48,21 @@ public class CourseService {
                 .stream()
                 .map(this::courseResponseDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public CourseResponseDTO update(UUID id, CourseUpdateDTO courseUpdate) {
+
+        Course course = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Curso não encontrado"));
+
+        course.setTitle(courseUpdate.title());
+        course.setDescription(courseUpdate.description());
+        course.setCategory(courseUpdate.category());
+
+        Course updatedCourse = repository.save(course);
+
+        return courseResponseDTO(updatedCourse);
     }
 
 
