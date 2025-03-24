@@ -13,6 +13,7 @@ import br.com.luis.vex.repository.CourseRepository;
 import br.com.luis.vex.repository.ModuleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -25,6 +26,7 @@ public class ModuleService {
     private final ModuleRepository repository;
     private final CourseRepository courseRepository;
 
+    @Transactional
     public ModuleResponseDTO create(ModuleRequestDTO module) {
 
         Course course = courseRepository.findById(module.courseId())
@@ -63,6 +65,7 @@ public class ModuleService {
         return moduleResponseDTO(module);
     }
 
+    @Transactional
     public ModuleResponseDTO update(UUID id, ModuleUpdateDTO moduleUpdate) {
 
         Module module = repository.findById(id)

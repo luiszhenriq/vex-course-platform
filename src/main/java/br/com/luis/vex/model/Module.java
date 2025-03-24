@@ -30,6 +30,7 @@ public class Module {
     private Course course;
 
     @OneToMany(mappedBy = "module", cascade = CascadeType.ALL)
+    @OrderBy("title ASC")
     private List<Lesson> lessons;
 
     public Module(ModuleRequestDTO modules) {
