@@ -4,6 +4,8 @@ package br.com.luis.vex.service;
 import br.com.luis.vex.dto.user.UserLoginDTO;
 import br.com.luis.vex.dto.user.UserRegisterDTO;
 import br.com.luis.vex.dto.user.UserResponseDTO;
+import br.com.luis.vex.infra.exception.EmailAlreadyRegisteredException;
+import br.com.luis.vex.infra.exception.InvalidPasswordException;
 import br.com.luis.vex.infra.security.TokenService;
 import br.com.luis.vex.model.User;
 import br.com.luis.vex.model.enums.UserType;
@@ -27,7 +29,7 @@ public class UserService {
     public UserResponseDTO register(UserRegisterDTO userRegister) {
 
         if (this.repository.findByEmail(userRegister.email()) != null) {
-            throw new RuntimeException("Este email já está cadastrado");
+            throw new EmailAlreadyRegisteredException("Este email já está cadastrado");
         }
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(userRegister.password());
@@ -47,7 +49,7 @@ public class UserService {
         User user = (User) repository.findByEmail(userLogin.email());
 
         if (!this.passwordEncoder.matches(userLogin.password(), user.getPassword())) {
-            throw new RuntimeException("Senha inválida");
+            throw new InvalidPasswordException("Senha inválida");
         }
 
         var token = new UsernamePasswordAuthenticationToken(userLogin.email(), userLogin.password());

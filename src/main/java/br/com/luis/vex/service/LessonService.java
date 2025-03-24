@@ -3,6 +3,7 @@ package br.com.luis.vex.service;
 
 import br.com.luis.vex.dto.lesson.LessonRequestDTO;
 import br.com.luis.vex.dto.lesson.LessonResponseDTO;
+import br.com.luis.vex.infra.exception.IdNotFoundException;
 import br.com.luis.vex.model.Lesson;
 import br.com.luis.vex.repository.LessonRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class LessonService {
     @Transactional
     public LessonResponseDTO update(UUID id, LessonRequestDTO lessonRequest) {
 
-        Lesson lesson = repository.findById(id).orElseThrow(() -> new RuntimeException("Aula não encontrada"));
+        Lesson lesson = repository.findById(id).orElseThrow(() -> new IdNotFoundException("Aula não encontrada"));
 
         lesson.setTitle(lessonRequest.title());
         lesson.setVideoUrl(lessonRequest.videoUrl());

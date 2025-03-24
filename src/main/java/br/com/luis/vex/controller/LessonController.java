@@ -4,6 +4,7 @@ package br.com.luis.vex.controller;
 import br.com.luis.vex.dto.lesson.LessonRequestDTO;
 import br.com.luis.vex.dto.lesson.LessonResponseDTO;
 import br.com.luis.vex.service.LessonService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class LessonController {
 
     @PutMapping("/{id}")
     public ResponseEntity<LessonResponseDTO> update(@PathVariable("id") UUID id,
-                                                    @RequestBody LessonRequestDTO lesson) {
+                                                    @RequestBody @Valid LessonRequestDTO lesson) {
         return new ResponseEntity<>(service.update(id, lesson), HttpStatus.OK);
     }
 }

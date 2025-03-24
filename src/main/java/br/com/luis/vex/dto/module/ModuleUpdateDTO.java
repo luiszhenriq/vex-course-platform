@@ -1,4 +1,10 @@
 package br.com.luis.vex.dto.module;
 
-public record ModuleUpdateDTO(String title) {
+import jakarta.validation.constraints.NotBlank;
+
+public record ModuleUpdateDTO(
+
+        @NotBlank(message = "Este campo não pode ser vazio")
+        String title
+) {
 }

@@ -6,6 +6,7 @@ import br.com.luis.vex.dto.lesson.LessonResponseDTO;
 import br.com.luis.vex.dto.module.ModuleRequestDTO;
 import br.com.luis.vex.dto.module.ModuleResponseDTO;
 import br.com.luis.vex.dto.module.ModuleUpdateDTO;
+import br.com.luis.vex.infra.exception.IdNotFoundException;
 import br.com.luis.vex.model.Course;
 import br.com.luis.vex.model.Lesson;
 import br.com.luis.vex.model.Module;
@@ -30,7 +31,7 @@ public class ModuleService {
     public ModuleResponseDTO create(ModuleRequestDTO module) {
 
         Course course = courseRepository.findById(module.courseId())
-                .orElseThrow(() -> new RuntimeException("Curso não encontrado"));
+                .orElseThrow(() -> new IdNotFoundException("Curso não encontrado"));
 
 
         Module newModule = new Module(module);
@@ -60,7 +61,7 @@ public class ModuleService {
     public ModuleResponseDTO findById(UUID id) {
 
         Module module = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Módulo do curso não encontrado"));
+                .orElseThrow(() -> new IdNotFoundException("Módulo do curso não encontrado"));
 
         return moduleResponseDTO(module);
     }
@@ -69,7 +70,7 @@ public class ModuleService {
     public ModuleResponseDTO update(UUID id, ModuleUpdateDTO moduleUpdate) {
 
         Module module = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Módulo do curso não encontrado"));
+                .orElseThrow(() -> new IdNotFoundException("Módulo do curso não encontrado"));
 
         module.setTitle(moduleUpdate.title());
 

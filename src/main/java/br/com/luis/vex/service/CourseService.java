@@ -6,6 +6,7 @@ import br.com.luis.vex.dto.course.CourseResponseDTO;
 import br.com.luis.vex.dto.course.CourseUpdateDTO;
 import br.com.luis.vex.dto.lesson.LessonResponseDTO;
 import br.com.luis.vex.dto.module.ModuleResponseDTO;
+import br.com.luis.vex.infra.exception.IdNotFoundException;
 import br.com.luis.vex.model.Course;
 import br.com.luis.vex.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +38,7 @@ public class CourseService {
     public CourseResponseDTO findById(UUID id) {
 
         Course course = repository.findById(id).
-                orElseThrow(() -> new RuntimeException("Curso não Encontrado"));
+                orElseThrow(() -> new IdNotFoundException("Curso não Encontrado"));
 
         return courseResponseDTO(course);
     }
@@ -54,7 +55,7 @@ public class CourseService {
     public CourseResponseDTO update(UUID id, CourseUpdateDTO courseUpdate) {
 
         Course course = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Curso não encontrado"));
+                .orElseThrow(() -> new IdNotFoundException("Curso não encontrado"));
 
         course.setTitle(courseUpdate.title());
         course.setDescription(courseUpdate.description());

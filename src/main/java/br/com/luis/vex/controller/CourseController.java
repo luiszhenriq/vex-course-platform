@@ -5,6 +5,7 @@ import br.com.luis.vex.dto.course.CourseRequestDTO;
 import br.com.luis.vex.dto.course.CourseResponseDTO;
 import br.com.luis.vex.dto.course.CourseUpdateDTO;
 import br.com.luis.vex.service.CourseService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class CourseController {
 
 
     @PostMapping
-    public ResponseEntity<CourseResponseDTO> create(@RequestBody CourseRequestDTO courseRequest) {
+    public ResponseEntity<CourseResponseDTO> create(@RequestBody @Valid CourseRequestDTO courseRequest) {
         return new ResponseEntity<>(service.create(courseRequest), HttpStatus.CREATED);
     }
 
@@ -39,7 +40,7 @@ public class CourseController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CourseResponseDTO> update(@PathVariable("id") UUID id,
-                                                    @RequestBody CourseUpdateDTO courseUpdate) {
+                                                    @RequestBody @Valid CourseUpdateDTO courseUpdate) {
         return new ResponseEntity<>(service.update(id, courseUpdate), HttpStatus.OK);
     }
 

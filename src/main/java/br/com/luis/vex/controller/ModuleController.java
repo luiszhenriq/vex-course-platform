@@ -5,6 +5,7 @@ import br.com.luis.vex.dto.module.ModuleRequestDTO;
 import br.com.luis.vex.dto.module.ModuleResponseDTO;
 import br.com.luis.vex.dto.module.ModuleUpdateDTO;
 import br.com.luis.vex.service.ModuleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class ModuleController {
     private final ModuleService service;
 
     @PostMapping
-    public ResponseEntity<ModuleResponseDTO> create(@RequestBody ModuleRequestDTO module) {
+    public ResponseEntity<ModuleResponseDTO> create(@RequestBody @Valid ModuleRequestDTO module) {
         return new ResponseEntity<>(service.create(module), HttpStatus.CREATED);
     }
 
@@ -37,7 +38,7 @@ public class ModuleController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ModuleResponseDTO> update(@PathVariable("id") UUID id,
-                                                    @RequestBody ModuleUpdateDTO moduleUpdate) {
+                                                    @RequestBody @Valid ModuleUpdateDTO moduleUpdate) {
         return new ResponseEntity<>(service.update(id, moduleUpdate), HttpStatus.OK);
     }
 }

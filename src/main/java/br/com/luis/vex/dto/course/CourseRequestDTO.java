@@ -1,10 +1,16 @@
 package br.com.luis.vex.dto.course;
 
+import jakarta.validation.constraints.NotBlank;
+
 public record CourseRequestDTO(
-         String title,
 
-         String description,
+        @NotBlank(message = "Este campo não pode ser vazio")
+        String title,
 
-         String category
+        @NotBlank(message = "Este campo não pode ser vazio")
+        String description,
+
+        @NotBlank(message = "Este campo não pode ser vazio")
+        String category
 ) {
 }
