@@ -44,12 +44,11 @@ public class CourseService {
         return courseResponseDTO(course);
     }
 
-    public List<CourseResponseDTO> findAll() {
+    public Page<CourseResponseDTO> findAll(Pageable pageable) {
 
-        return repository.findAll()
-                .stream()
-                .map(this::courseResponseDTO)
-                .collect(Collectors.toList());
+        Page<Course> courses = repository.findAll(pageable);
+
+        return courses.map(this::courseResponseDTO);
     }
 
     @Transactional
