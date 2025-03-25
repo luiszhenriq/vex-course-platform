@@ -7,6 +7,9 @@ import br.com.luis.vex.dto.course.CourseUpdateDTO;
 import br.com.luis.vex.service.CourseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +23,6 @@ import java.util.UUID;
 public class CourseController {
 
     private final CourseService service;
-
 
     @PostMapping
     public ResponseEntity<CourseResponseDTO> create(@RequestBody @Valid CourseRequestDTO courseRequest) {
@@ -36,6 +38,12 @@ public class CourseController {
     @GetMapping
     public ResponseEntity<List<CourseResponseDTO>> findAll() {
         return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<Page<CourseResponseDTO>> findAllCoursesByCategory(@PageableDefault(page = 0, size = 10) Pageable pageable,
+                                                                            @RequestParam(name = "category", required = false) String category) {
+        return new ResponseEntity<>(service.findAllCoursesByCategory(category, pageable), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

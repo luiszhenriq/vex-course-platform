@@ -10,6 +10,8 @@ import br.com.luis.vex.infra.exception.IdNotFoundException;
 import br.com.luis.vex.model.Course;
 import br.com.luis.vex.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +24,6 @@ import java.util.stream.Collectors;
 public class CourseService {
 
     private final CourseRepository repository;
-
 
     @Transactional
     public CourseResponseDTO create(CourseRequestDTO course) {
@@ -64,6 +65,13 @@ public class CourseService {
         Course updatedCourse = repository.save(course);
 
         return courseResponseDTO(updatedCourse);
+    }
+
+    public Page<CourseResponseDTO> findAllCoursesByCategory(String category, Pageable pageable) {
+
+        Page<Course> courses = repository.findAllCoursesByCategory(category, pageable);
+
+        return courses.map(this::courseResponseDTO);
     }
 
     public void deleteById(UUID id) {
