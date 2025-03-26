@@ -66,9 +66,9 @@ public class CourseService {
         return courseResponseDTO(updatedCourse);
     }
 
-    public Page<CourseResponseDTO> findAllCoursesByCategory(String category, Pageable pageable) {
+    public Page<CourseResponseDTO> findAllCoursesByFilter(String category, String title,  Pageable pageable) {
 
-        Page<Course> courses = repository.findAllCoursesByCategory(category, pageable);
+        Page<Course> courses = repository.findAllCoursesByFilter(category, title, pageable);
 
         return courses.map(this::courseResponseDTO);
     }

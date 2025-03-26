@@ -7,12 +7,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface CourseRepository extends JpaRepository<Course, UUID> {
 
-    @Query("SELECT e FROM Course e WHERE (:category IS NULL OR e.category = :category)")
-    Page<Course> findAllCoursesByCategory(@Param("category") String category, Pageable pageable);
+    @Query("SELECT e FROM Course e WHERE " +
+            "(:category IS NULL OR LOWER(e.category) = LOWER(:category)) AND " +
+            "(:title IS NULL OR LOWER(e.title) LIKE LOWER(CONCAT('%', :title, '%')))")
+    Page<Course> findAllCoursesByFilter(
+            @Param("category") String category,
+            @Param("title") String title,
+            Pageable pageable);
+
 
 }
