@@ -13,6 +13,7 @@ import br.com.luis.vex.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -58,12 +59,22 @@ public class UserService {
         return tokenService.generateToken((User) auth.getPrincipal());
     }
 
+    public UserResponseDTO getAuthenticatedUser() {
+
+        User authentication = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        return userResponseDTO(authentication);
+    }
+
+
     private UserResponseDTO userResponseDTO(User user) {
 
         return new UserResponseDTO(
                 user.getId(),
                 user.getFullName(),
                 user.getEmail(),
+                user.getCellphone(),
+                user.getTaxId(),
                 user.getUserType()
         );
     }

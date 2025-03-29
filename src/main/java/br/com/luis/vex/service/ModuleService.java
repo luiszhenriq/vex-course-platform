@@ -1,7 +1,6 @@
 package br.com.luis.vex.service;
 
 
-import br.com.luis.vex.dto.course.CourseResponseDTO;
 import br.com.luis.vex.dto.lesson.LessonResponseDTO;
 import br.com.luis.vex.dto.module.ModuleRequestDTO;
 import br.com.luis.vex.dto.module.ModuleResponseDTO;

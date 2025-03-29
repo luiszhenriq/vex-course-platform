@@ -33,6 +33,10 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
 
+    private String cellphone;
+
+    private String taxId;
+
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -41,6 +45,8 @@ public class User implements UserDetails {
     public User(UserRegisterDTO userRegister) {
         this.fullName = userRegister.fullName();
         this.email = userRegister.email();
+        this.cellphone = userRegister.cellphone();
+        this.taxId = userRegister.taxId();
         this.password = userRegister.password();
     }
 

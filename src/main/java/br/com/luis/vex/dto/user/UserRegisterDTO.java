@@ -13,6 +13,12 @@ public record UserRegisterDTO(
         String email,
 
         @NotBlank(message = "Este campo não pode ser vazio")
+        String cellphone,
+
+        @NotBlank(message = "Este campo não pode ser vazio")
+        String taxId,
+
+        @NotBlank(message = "Este campo não pode ser vazio")
         String password
 ) {
 }

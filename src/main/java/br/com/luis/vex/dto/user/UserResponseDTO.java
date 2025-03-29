@@ -12,6 +12,10 @@ public record UserResponseDTO(
 
          String email,
 
+         String cellphone,
+
+         String taxId,
+
         UserType userType
 ) {
 }
