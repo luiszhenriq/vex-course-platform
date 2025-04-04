@@ -30,6 +30,7 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/webhook").permitAll()
                         .requestMatchers(HttpMethod.POST, "/course").hasRole("INSTRUTOR")
                         .requestMatchers(HttpMethod.PUT, "/course/{id}").hasRole("INSTRUTOR")
                         .requestMatchers(HttpMethod.DELETE, "/course/{id}").hasRole("INSTRUTOR")

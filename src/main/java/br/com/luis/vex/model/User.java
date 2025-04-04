@@ -35,6 +35,7 @@ public class User implements UserDetails {
 
     private String cellphone;
 
+    @Column(unique = true)
     private String taxId;
 
     private String password;

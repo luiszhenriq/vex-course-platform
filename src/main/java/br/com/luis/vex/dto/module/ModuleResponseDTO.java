@@ -10,6 +10,6 @@ public record ModuleResponseDTO(
 
         String title,
 
-        List<LessonResponseDTO> lessons
+        List<?> lessons
 ) {
 }
