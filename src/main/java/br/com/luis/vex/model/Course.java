@@ -2,6 +2,7 @@ package br.com.luis.vex.model;
 
 
 import br.com.luis.vex.dto.course.CourseRequestDTO;
+import br.com.luis.vex.model.enums.CategoryType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,7 +29,8 @@ public class Course {
 
     private String description;
 
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private CategoryType category;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Module> modules = new ArrayList<>();

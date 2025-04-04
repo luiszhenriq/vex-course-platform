@@ -4,6 +4,7 @@ package br.com.luis.vex.controller;
 import br.com.luis.vex.dto.course.CourseRequestDTO;
 import br.com.luis.vex.dto.course.CourseResponseDTO;
 import br.com.luis.vex.dto.course.CourseUpdateDTO;
+import br.com.luis.vex.model.enums.CategoryType;
 import br.com.luis.vex.service.CourseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -42,7 +42,7 @@ public class CourseController {
 
     @GetMapping("/filter")
     public ResponseEntity<Page<CourseResponseDTO>> findAllCoursesByFilter(  @PageableDefault(page = 0, size = 10) Pageable pageable,
-                                                                            @RequestParam(name = "category", required = false) String category,
+                                                                            @RequestParam(name = "category", required = false) CategoryType category,
                                                                             @RequestParam(name = "title", required = false) String title) {
         return new ResponseEntity<>(service.findAllCoursesByFilter(category, title, pageable), HttpStatus.OK);
     }

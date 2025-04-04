@@ -1,6 +1,8 @@
 package br.com.luis.vex.dto.course;
 
+import br.com.luis.vex.model.enums.CategoryType;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record CourseRequestDTO(
 
@@ -10,7 +12,7 @@ public record CourseRequestDTO(
         @NotBlank(message = "Este campo não pode ser vazio")
         String description,
 
-        @NotBlank(message = "Este campo não pode ser vazio")
-        String category
+        @NotNull(message = "Este campo não pode ser nulo")
+        CategoryType category
 ) {
 }
