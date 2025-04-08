@@ -34,13 +34,7 @@ public class CourseController {
         return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
 
     }
-
     @GetMapping
-    public ResponseEntity<Page<CourseResponseDTO>> findAll(@PageableDefault(page = 0, size = 10) Pageable pageable) {
-        return new ResponseEntity<>(service.findAll(pageable), HttpStatus.OK);
-    }
-
-    @GetMapping("/filter")
     public ResponseEntity<Page<CourseResponseDTO>> findAllCoursesByFilter(  @PageableDefault(page = 0, size = 10) Pageable pageable,
                                                                             @RequestParam(name = "category", required = false) CategoryType category,
                                                                             @RequestParam(name = "title", required = false) String title) {

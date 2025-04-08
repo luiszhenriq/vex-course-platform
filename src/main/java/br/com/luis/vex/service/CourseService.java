@@ -72,13 +72,6 @@ public class CourseService {
         return new CourseResponseDTO(course.getId(), course.getTitle(), course.getDescription(), course.getCategory(), moduleDTOs);
     }
 
-    public Page<CourseResponseDTO> findAll(Pageable pageable) {
-
-        Page<Course> courses = repository.findAll(pageable);
-
-        return courses.map(this::courseResponseDTO);
-    }
-
     @Transactional
     public CourseResponseDTO update(UUID id, CourseUpdateDTO courseUpdate) {
 
