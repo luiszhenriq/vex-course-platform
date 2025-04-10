@@ -131,7 +131,7 @@ class CourseServiceTest {
 
     @Test
     @DisplayName("Should return all courses by filters")
-    void ShouldReturnAllCoursesByFilters() {
+    void shouldReturnAllCoursesByFilters() {
 
         Pageable pageable = mock(Pageable.class);
         Page<Course> coursePage = new PageImpl<>(Collections.singletonList(course), pageable, 1);
@@ -150,7 +150,7 @@ class CourseServiceTest {
 
     @Test
     @DisplayName("Should return all courses by filter ignore title filter")
-    void ShouldReturnAllCoursesByFilterIgnoreTitleFilter() {
+    void shouldReturnAllCoursesByFilterIgnoreTitleFilter() {
 
         Pageable pageable = mock(Pageable.class);
         Page<Course> coursePage = new PageImpl<>(Collections.singletonList(course), pageable, 1);
@@ -168,7 +168,7 @@ class CourseServiceTest {
 
     @Test
     @DisplayName("Should return all courses by filter ignore category filter")
-    void ShouldReturnAllCoursesByFilterIgnoreCategoryFilter() {
+    void shouldReturnAllCoursesByFilterIgnoreCategoryFilter() {
 
         Pageable pageable = mock(Pageable.class);
         Page<Course> coursePage = new PageImpl<>(Collections.singletonList(course), pageable, 1);
