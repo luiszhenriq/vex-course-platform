@@ -5,6 +5,7 @@ import br.com.luis.vex.dto.user.UserLoginDTO;
 import br.com.luis.vex.dto.user.UserRegisterDTO;
 import br.com.luis.vex.dto.user.UserResponseDTO;
 import br.com.luis.vex.infra.exception.EmailAlreadyRegisteredException;
+import br.com.luis.vex.infra.exception.EmailNotFoundException;
 import br.com.luis.vex.infra.exception.InvalidPasswordException;
 import br.com.luis.vex.infra.security.TokenService;
 import br.com.luis.vex.model.User;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +35,7 @@ public class UserService {
             throw new EmailAlreadyRegisteredException("Este email já está cadastrado");
         }
 
-        String encryptedPassword = new BCryptPasswordEncoder().encode(userRegister.password());
+        String encryptedPassword = passwordEncoder.encode(userRegister.password());
 
         User newUser = new User(userRegister);
 
@@ -46,8 +48,11 @@ public class UserService {
     }
 
     public String login(UserLoginDTO userLogin) {
-
         User user = (User) repository.findByEmail(userLogin.email());
+
+        if (user == null) {
+            throw new EmailNotFoundException("Email não encontrado");
+        }
 
         if (!this.passwordEncoder.matches(userLogin.password(), user.getPassword())) {
             throw new InvalidPasswordException("Senha inválida");
