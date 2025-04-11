@@ -11,6 +11,7 @@ import br.com.luis.vex.model.Lesson;
 import br.com.luis.vex.model.Module;
 import br.com.luis.vex.repository.CourseRepository;
 import br.com.luis.vex.repository.ModuleRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,6 +31,16 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ModuleServiceTest {
 
+    private static final UUID MODULE_ID =                           UUID.randomUUID();
+    private static final String MODULE_TITLE =                      "Módulo 1";
+    private static final String UPDATED_MODULE_TITLE =              "Módulo Atualizado";
+
+    private static final UUID COURSE_ID =                           UUID.randomUUID();
+
+    private static final String LESSON_TITLE =                      "Aula 1";
+    private static final String LESSON_URL =                        "http://video.com/1";
+    private static final int LESSON_DURATION =                      12000;
+
     @InjectMocks
     private ModuleService moduleService;
 
@@ -39,41 +50,47 @@ class ModuleServiceTest {
     @Mock
     private CourseRepository courseRepository;
 
+    private Module module;
+    private Course course;
+    private Lesson lesson;
+    private ModuleRequestDTO moduleRequestDTO;
+    private ModuleUpdateDTO moduleUpdateDTO;
+
+    @BeforeEach
+    void setUp() {
+        course = new Course();
+        course.setId(COURSE_ID);
+
+        lesson = new Lesson();
+        lesson.setTitle(LESSON_TITLE);
+        lesson.setVideoUrl(LESSON_URL);
+        lesson.setDuration(LESSON_DURATION);
+
+        module = new Module();
+        module.setId(MODULE_ID);
+        module.setTitle(MODULE_TITLE);
+        module.setCourse(course);
+        module.setLessons(List.of(lesson));
+        lesson.setModule(module);
+
+        LessonRequestDTO lessonDTO = new LessonRequestDTO(LESSON_TITLE, LESSON_URL, LESSON_DURATION);
+        moduleRequestDTO = new ModuleRequestDTO(COURSE_ID, MODULE_TITLE, List.of(lessonDTO));
+        moduleUpdateDTO = new ModuleUpdateDTO(UPDATED_MODULE_TITLE);
+    }
+
 
     @Test
     @DisplayName("Should return a created module with success")
     void shouldReturnACreatedModuleWithSuccess() {
-        UUID courseId = UUID.randomUUID();
-        Course course = new Course();
-        course.setId(courseId);
+        when(courseRepository.findById(COURSE_ID)).thenReturn(Optional.of(course));
+        when(moduleRepository.save(any(Module.class))).thenReturn(module);
 
-        LessonRequestDTO lessonDTO = new LessonRequestDTO("Aula 1", "http://video.com/1", 120);
-        ModuleRequestDTO requestDTO = new ModuleRequestDTO(courseId, "Módulo 1", List.of(lessonDTO)
-        );
-
-        when(courseRepository.findById(courseId)).thenReturn(Optional.of(course));
-
-        Module savedModule = new Module();
-        savedModule.setTitle("Módulo 1");
-        savedModule.setCourse(course);
-
-        Lesson lesson = new Lesson();
-        lesson.setTitle("Aula 1");
-        lesson.setVideoUrl("http://video.com/1");
-        lesson.setDuration(120);
-        lesson.setModule(savedModule);
-
-        savedModule.setLessons(List.of(lesson));
-
-        when(moduleRepository.save(any(Module.class))).thenReturn(savedModule);
-
-        ModuleResponseDTO result = moduleService.create(requestDTO);
+        ModuleResponseDTO result = moduleService.create(moduleRequestDTO);
 
         assertNotNull(result);
-        assertEquals("Módulo 1", result.title());
+        assertEquals(MODULE_TITLE, result.title());
         assertEquals(1, result.lessons().size());
-
-        verify(courseRepository).findById(courseId);
+        verify(courseRepository).findById(COURSE_ID);
         verify(moduleRepository).save(any(Module.class));
     }
 
@@ -112,33 +129,15 @@ class ModuleServiceTest {
     @Test
     @DisplayName("Should update a module with success")
     void shouldUpdateAModuleWithSuccess() {
-
-        UUID moduleId = UUID.randomUUID();
-        Module module = new Module();
-        module.setId(moduleId);
-        module.setTitle("Modulo 1");
-
-        Lesson lesson = new Lesson();
-        lesson.setTitle("Aula 1");
-        lesson.setVideoUrl("http://video.com/1");
-        lesson.setDuration(120);
-        lesson.setModule(module);
-
-        module.setLessons(List.of(lesson));
-
-
-        ModuleUpdateDTO moduleUpdateDTO = new ModuleUpdateDTO("Aula atualizada");
-
-        when(moduleRepository.findById(moduleId)).thenReturn(Optional.of(module));
+        when(moduleRepository.findById(MODULE_ID)).thenReturn(Optional.of(module));
         when(moduleRepository.save(any())).thenReturn(module);
 
-        ModuleResponseDTO response = moduleService.update(moduleId, moduleUpdateDTO);
+        ModuleResponseDTO response = moduleService.update(MODULE_ID, moduleUpdateDTO);
 
         assertNotNull(response);
         assertEquals(ModuleResponseDTO.class, response.getClass());
-        assertEquals(moduleId, response.id());
-        assertEquals(moduleUpdateDTO.title(), response.title());
-
+        assertEquals(MODULE_ID, response.id());
+        assertEquals(UPDATED_MODULE_TITLE, response.title());
     }
 
     @Test
