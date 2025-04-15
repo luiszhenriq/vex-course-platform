@@ -31,6 +31,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/webhook").permitAll()
+
                         .requestMatchers(HttpMethod.POST, "/course").hasRole("INSTRUTOR")
                         .requestMatchers(HttpMethod.PUT, "/course/{id}").hasRole("INSTRUTOR")
                         .requestMatchers(HttpMethod.DELETE, "/course/{id}").hasRole("INSTRUTOR")
@@ -40,6 +41,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.PUT, "/lesson/{id}").hasRole("INSTRUTOR")
                         .requestMatchers(HttpMethod.DELETE, "/lesson/{id}").hasRole("INSTRUTOR")
 
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
