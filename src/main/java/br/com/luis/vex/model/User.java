@@ -43,6 +43,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
+    @OneToMany(mappedBy = "user")
+    private List<CoursePurchase> purchases;
+
     public User(UserRegisterDTO userRegister) {
         this.fullName = userRegister.fullName();
         this.email = userRegister.email();
