@@ -66,7 +66,7 @@ class UserServiceTest {
     void setUp() {
         userRegisterDTO = new UserRegisterDTO(FULL_NAME, EMAIL, CELLPHONE, TAX_ID, PASSWORD);
         userLoginDTO = new UserLoginDTO(EMAIL, PASSWORD);
-        user = new User(ID, FULL_NAME, EMAIL, CELLPHONE, TAX_ID, PASSWORD, USER_TYPE);
+        user = new User(ID, FULL_NAME, EMAIL, CELLPHONE, TAX_ID, PASSWORD, USER_TYPE, null);
     }
 
     @Test
